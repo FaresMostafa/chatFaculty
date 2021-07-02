@@ -283,7 +283,8 @@ class RecentSections extends StatelessWidget {
                                                       alignment: Alignment.centerRight,
                                                       height: 27,
                                                       child: StreamBuilder(
-                                                          stream:FirebaseFirestore.instance.collection("Chats").doc(_data[_index].chatID).collection("seen").doc("main").snapshots(),
+                                                          stream:FirebaseFirestore.instance.collection("Chats").doc(_data[_index].chatID).collection("seen")
+                                                          .doc("main").snapshots(),
                                                           builder: (context, _snapshot) {
                                                           switch (_snapshot.connectionState) {
                                                           case ConnectionState.waiting: return Center(

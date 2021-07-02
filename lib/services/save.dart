@@ -11,14 +11,14 @@ Future<String> getPathInExternalStorage() async {
   String tempPath = tempDir.path;
   List<String> listTemp = tempPath.split("0/");
   String pictureTemp = "${listTemp[0]}0/";
-  if(!(await Directory("$pictureTemp/Hager's App").exists())){
+  if(!(await Directory("$pictureTemp/UniChat").exists())){
     createNewMediaFolder(pictureTemp);
   }
-  return "$pictureTemp/Hager's App";
+  return "$pictureTemp/UniChat";
 }
 
 createNewMediaFolder(pictureTemp)async{
-  Directory("$pictureTemp/Hager's App").create(recursive: true);
+  Directory("$pictureTemp/UniChat").create(recursive: true);
 }
 
 saveNetworkImage(String url) async {

@@ -14,7 +14,6 @@ class SeenMessages extends StatefulWidget {
   String chatId;
   int len;
   SeenMessages({this.message,this.index,this.chatId,this.len});
-
   @override
   _SeenMessagesState createState() => _SeenMessagesState();
 }
