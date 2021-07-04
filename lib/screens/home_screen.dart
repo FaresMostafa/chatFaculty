@@ -157,116 +157,120 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               isScrollControlled: true,
               context: context,
               builder: (builder) {
-                return Container(
-                  height: MediaQuery.of(context).size.height*0.2,
-                  color: Colors
-                      .transparent, //could change this to Color(0xFF737373),
-                  //so you don't have to change MaterialApp canvasColor
+                return Padding(
+                  padding: MediaQuery.of(context).viewInsets,
                   child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            topLeft: const Radius.circular(10.0),
-                            topRight: const Radius.circular(10.0))),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Write a new post',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20.0),
+                    height: MediaQuery.of(context).size.height*0.2,
+                    color: Colors
+                        .transparent, //could change this to Color(0xFF737373),
+                    //so you don't have to change MaterialApp canvasColor
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              topLeft: const Radius.circular(10.0),
+                              topRight: const Radius.circular(10.0))),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Write a new post',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20.0),
+                            ),
                           ),
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: AutoDirection(
-                                onDirectionChange: (isRTL) {
-                                  setState(() {
-                                    this.isRTL = isRTL;
-                                  });
-                                },
-                                text: text,
-                                child: Container(
-                                  //padding: EdgeInsets.all(10.0),
-                                  margin: EdgeInsets.only(
-                                    right: 10.0,
-                                    left: 10.0,
-                                    bottom: 10.0,
+                          Row(
+                            children: [
+                              Expanded(
+                                child: AutoDirection(
+                                  onDirectionChange: (isRTL) {
+                                    setState(() {
+                                      this.isRTL = isRTL;
+                                    });
+                                  },
+                                  text: text,
+                                  child: Container(
+                                    //padding: EdgeInsets.all(10.0),
+                                    margin: EdgeInsets.only(
+                                      right: 10.0,
+                                      left: 10.0,
+                                      bottom: 10.0,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      //color: Color(0xFFF3F7FA),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10.0)),
+                                    ),
+                                    child: TextField(
+                                      controller: postTextController,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          text = value;
+                                        });
+                                      },
+                                      keyboardType: TextInputType.multiline,
+                                      maxLines: 3,
+                                      textCapitalization:
+                                          TextCapitalization.sentences,
+                                      cursorColor: Colors.blueGrey,
+                                      decoration: InputDecoration(
+                                        isDense: true,
+                                        border: InputBorder.none,
+                                        hintText: 'Type something',
+                                        hintStyle: TextStyle(color: Colors.grey),
+                                      ),
+                                    ),
                                   ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Container(
                                   decoration: BoxDecoration(
-                                    //color: Color(0xFFF3F7FA),
+                                    color: Theme.of(context).accentColor,
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(10.0)),
                                   ),
-                                  child: TextField(
-                                    controller: postTextController,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        text = value;
-                                      });
-                                    },
-                                    keyboardType: TextInputType.multiline,
-                                    maxLines: 3,
-                                    textCapitalization:
-                                        TextCapitalization.sentences,
-                                    cursorColor: Colors.blueGrey,
-                                    decoration: InputDecoration(
-                                      isDense: true,
-                                      border: InputBorder.none,
-                                      hintText: 'Type something',
-                                      hintStyle: TextStyle(color: Colors.grey),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).accentColor,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10.0)),
-                                ),
-                                alignment: Alignment.center,
-                                child: GestureDetector(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Text(
-                                      'Post',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 17.0,
+                                  alignment: Alignment.center,
+                                  child: GestureDetector(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Text(
+                                        'Post',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 17.0,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  onTap: () {
-                                    if(postTextController.text.trim() != ""){
-                                    postTextController.clear();
+                                    onTap: () {
+                                      if(postTextController.text.trim() != ""){
+                                      postTextController.clear();
 
-                                    DatabaseService.instance.sendPost(
-                                      Post(
-                                        post: text,
-                                        time: Timestamp.now(),
-                                        senderID: _auth.user.uid,
-                                      ),
-                                    );
-                                    setState(() {
-                                      text = '';
-                                    });
-                                    }else{
-                                      EasyLoading.showInfo("Please Enter some Text",duration: Duration(milliseconds: 800));
-                                    }
-                                  },
+                                      DatabaseService.instance.sendPost(
+                                        Post(
+                                          post: text,
+                                          time: Timestamp.now(),
+                                          senderID: _auth.user.uid,
+                                        ),
+                                      );
+                                      setState(() {
+                                        text = '';
+                                      });
+                                      }else{
+                                        EasyLoading.showInfo("Please Enter some Text",duration: Duration(milliseconds: 800));
+                                      }
+                                    },
+                                  ),
                                 ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ],
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );
